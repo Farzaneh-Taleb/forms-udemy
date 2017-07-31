@@ -8,9 +8,14 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./template-driven.component.css']
 })
 export class TemplateDrivenComponent  {
+user = {
+  username : 'Max' ,
+  password : 'ttt' ,
+  email : 'vhris'
+}
 
  onSubmit(form: NgForm) {
-   console.log(form) ;
+   console.log(this.user) ;
  }
 
 }
