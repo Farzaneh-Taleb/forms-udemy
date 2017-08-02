@@ -9,13 +9,19 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 export class DataDrivenComponent {
 
   myForm: FormGroup ;
+  genders= [
+    'male',
+    'female'
+  ]
 
   constructor() {
     this.myForm = new FormGroup({
-      'username': new FormControl('MAX' , Validators.required) ,
+      'userData': new FormGroup({
+        'username': new FormControl('MAX' , Validators.required) ,
+        'email': new FormControl('' , [Validators.required ])
+      }),
       'password': new FormControl('' , Validators.required),
-      'email': new FormControl('' , [Validators.required ,
-        Validators.pattern('/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/')])
+      'gender': new FormControl('male')
     });
 
   }
