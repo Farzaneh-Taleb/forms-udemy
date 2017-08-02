@@ -1,5 +1,5 @@
 import { Component,  } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-data-driven',
@@ -21,7 +21,8 @@ export class DataDrivenComponent {
         'email': new FormControl('' , [Validators.required ])
       }),
       'password': new FormControl('' , Validators.required),
-      'gender': new FormControl('male')
+      'gender': new FormControl('male'),
+      'hobbies': new FormArray([new FormControl('Cooking')])
     });
 
   }
