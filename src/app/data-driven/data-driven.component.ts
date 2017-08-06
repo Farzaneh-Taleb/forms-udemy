@@ -26,6 +26,9 @@ export class DataDrivenComponent {
     });
 
   }
+  onAddHobby () {
+    (<FormArray> this.myForm.controls['hobbies']).push(new FormControl('' , Validators.required)) ;
+  }
   onSubmit = function () {
 console.log(this.myForm) ;
   };
