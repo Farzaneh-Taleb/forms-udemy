@@ -1,5 +1,5 @@
 import { Component,  } from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-data-driven',
@@ -14,17 +14,26 @@ export class DataDrivenComponent {
     'female'
   ]
 
-  constructor() {
-    this.myForm = new FormGroup({
+  constructor( private formBuilder: FormBuilder) {
+/*    this.myForm = new FormGroup({
       'userData': new FormGroup({
         'username': new FormControl('MAX' , Validators.required) ,
         'email': new FormControl('' , [Validators.required ])
       }),
       'password': new FormControl('' , Validators.required),
       'gender': new FormControl('male'),
-      'hobbies': new FormArray([new FormControl('Cooking')])
-    });
-
+      'hobbies': new FormArray([new FormControl('Cooking')
+      ])
+    });*/
+this.myForm = formBuilder.group({
+    'userData': formBuilder.group({
+      'username': ['MAX', [Validators.required , this.exampleValidator]],
+      'email': ['', [Validators.required]]
+    }),
+    'password': ['', Validators.required],
+    'gender': ['male'],
+    'hobbies': formBuilder.array([['Cooking']])
+  });
   }
   onAddHobby () {
     (<FormArray> this.myForm.controls['hobbies']).push(new FormControl('' , Validators.required)) ;
@@ -33,6 +42,10 @@ export class DataDrivenComponent {
 console.log(this.myForm) ;
   };
 
-
-
+ exampleValidator (control: FormControl): {[s: string]: boolean} {
+  if (control.value === 'Example') {
+    return {example: true} ;
+  }
+  return null ;
+}
 }
