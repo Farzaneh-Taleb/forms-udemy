@@ -1,5 +1,7 @@
 import { Component,  } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Observable} from "rxjs/Observable";
+import {reject} from "q";
 
 @Component({
   selector: 'app-data-driven',
@@ -32,11 +34,18 @@ this.myForm = formBuilder.group({
     }),
     'password': ['', Validators.required],
     'gender': ['male'],
-    'hobbies': formBuilder.array([['Cooking']])
+    'hobbies': formBuilder.array([['Cooking' , Validators.required , this.asyncExampleValidator]])
   });
+  /*this.myForm.valueChanges.subscribe(
+    (data: any) => console.log(data)
+  );*/
+  this.myForm.statusChanges.subscribe(
+    (data: any) => console.log(data)
+  );
+
   }
   onAddHobby () {
-    (<FormArray> this.myForm.controls['hobbies']).push(new FormControl('' , Validators.required)) ;
+    (<FormArray> this.myForm.controls['hobbies']).push(new FormControl('' , Validators.required, this.asyncExampleValidator)) ;
   }
   onSubmit = function () {
 console.log(this.myForm) ;
@@ -48,4 +57,19 @@ console.log(this.myForm) ;
   }
   return null ;
 }
+
+asyncExampleValidator(control: FormControl): Promise<any> | Observable<any> {
+   const  promise = new Promise<any>(
+     (resolve , reject) => {
+       setTimeout(() =>  {
+         if (control.value === 'Example') {
+           resolve({'invalid': true});
+         } else {
+           resolve(null);
+         }
+       } , 1500) ;
+     });
+   return promise ;
+}
+
 }
